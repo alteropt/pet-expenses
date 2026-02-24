@@ -1,6 +1,6 @@
 'use client'
 
-import { LoginUser } from '@/lib/login'
+import { LoginUser } from '@/actions/login'
 import { LoginUserSchema, LoginUserSchemaType } from '@/schemas/auth.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'

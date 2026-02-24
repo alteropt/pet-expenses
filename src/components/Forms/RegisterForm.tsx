@@ -1,6 +1,6 @@
 'use client'
 
-import { RegisetUser } from '@/lib/register'
+import { RegisetUser } from '@/actions/register'
 import {
 	RegisterUserSchema,
 	RegisterUserSchemaType,
