@@ -6,6 +6,7 @@ datasource db {
   provider = "postgresql"
 }
 
+// ===== AUTH MODELS =====
 model User {
   id        String    @id @default(uuid())
   email     String    @unique
@@ -15,12 +16,23 @@ model User {
   expenses  Expense[]
 }
 
+// ===== EXPENSES MODELS =====
+model Category {
+  id       String    @id @default(uuid())
+  name     String    @unique
+  expenses Expense[]
+}
+
 model Expense {
-  id        String   @id @default(uuid())
-  title     String
-  amount    Float
-  date      DateTime
-  createdAt DateTime @default(now())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
+  id          String   @id @default(uuid())
+  description String
+  amount      Float
+  date        DateTime
+  createdAt   DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  category   Category? @relation(fields: [categoryId], references: [id])
+  categoryId String?
 }

@@ -36,7 +36,7 @@ const RegisterForm = () => {
 
 	return (
 		<form
-			className='mt-8 w-full flex flex-col gap-4'
+			className='mt-8 w-full form-default'
 			onSubmit={handleSubmit(onSubmit)}
 		>
 			{serverError && (

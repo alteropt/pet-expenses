@@ -2,18 +2,27 @@
 
 :root {
 	--active: #155dfc;
-	--background: #F9FAFB;
+	--background: #f9fafb;
 }
 
-.hover-darken::after {
-	content: '';
-	position: absolute;
-	inset: 0;
-	background: black;
-	opacity: 0;
-	transition: 0.2s;
-}
+@layer components {
+	.button-effect {
+		@apply shadow-[inset_0_0_0_2000px_transparent] hover:shadow-[inset_0_0_0_2000px_rgba(0,0,0,0.15)] focus:shadow-[inset_0_0_0_2000px_rgba(0,0,0,0.3)] transition-all duration-300;
+	}
 
-.hover-darken:hover::after {
-	opacity: 0.08;
+	.input-default {
+		@apply outline-1 outline-black/20 p-3.5 rounded-xl focus:shadow-[0_0_0_2px_var(--active)];
+	}
+
+	.label-input-div {
+		@apply flex flex-col gap-1;
+	}
+
+	.form-default {
+		@apply flex flex-col gap-4;
+	}
+
+	.scrollbar-stable {
+		scrollbar-gutter: stable;
+	}
 }

@@ -2,7 +2,7 @@ import BalanceCard from '@/components/UI/BalanceCard/BalanceCard'
 import Button from '@/components/UI/Button'
 import Container from '@/components/UI/Container'
 import Transaction from '@/components/UI/Transaction/Transaction'
-import { HEADER_HEIGHT } from '@/config/styles-constants.config'
+import { HEADER_HEIGHT } from '@/constants/styles.constants'
 import { authOptions } from '@/lib/auth'
 import { getServerSession } from 'next-auth'
 import Link from 'next/link'
@@ -26,7 +26,7 @@ export default async function Home() {
 
 	return (
 		<Container>
-			<section className='flex gap-6 mt-10 '>
+			<section className='flex gap-6 pt-10 '>
 				<BalanceCard variant='total' className='flex-1' amount={19207} />
 				<BalanceCard variant='income' className='flex-1' amount={0.0} />
 				<BalanceCard variant='expense' className='flex-1' amount={0.0} />

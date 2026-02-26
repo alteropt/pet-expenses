@@ -16,7 +16,6 @@ export async function RegisetUser(
 
 		if (response.ok) {
 			setServerError('')
-
 			LoginUser(data.email, data.password, setServerError, router)
 			return true
 		} else {

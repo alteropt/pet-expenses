@@ -1,4 +1,4 @@
-import { HEADER_HEIGHT } from '@/config/styles-constants.config'
+import { HEADER_HEIGHT } from '@/constants/styles.constants'
 import Navigation from './Navigation'
 import ProfileName from './ProfileInfo/ProfileName'
 import Container from './UI/Container'
