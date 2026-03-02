@@ -25,4 +25,12 @@
 	.scrollbar-stable {
 		scrollbar-gutter: stable;
 	}
+
+	.scrollbar::-webkit-scrollbar {
+		@apply w-2;
+	}
+
+	.scrollbar::-webkit-scrollbar-thumb {
+		@apply bg-gray-400 rounded-full;
+	}
 }

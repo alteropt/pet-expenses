@@ -1,4 +1,4 @@
-export const TRANSACTION_CATEGORIES = [
+export const EXPENSE_CATEGORIES = [
 	'Food',
 	'Transport',
 	'Entertainment',
@@ -6,4 +6,6 @@ export const TRANSACTION_CATEGORIES = [
 	'Health',
 	'Shopping',
 	'Utilities',
-] as const 
+] as const
+
+export const INCOME_CATEGORIES = ['Salary', 'Gifts', 'Others'] as const

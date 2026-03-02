@@ -6,33 +6,32 @@ datasource db {
   provider = "postgresql"
 }
 
+enum TransactionT {
+  INCOME
+  EXPENSE
+}
+
 // ===== AUTH MODELS =====
 model User {
-  id        String    @id @default(uuid())
-  email     String    @unique
+  id        String        @id @default(uuid())
+  email     String        @unique
   fullname  String
   password  String
-  createdAt DateTime  @default(now())
-  expenses  Expense[]
+  createdAt DateTime      @default(now())
+  expenses  Transaction[]
 }
 
 // ===== EXPENSES MODELS =====
-model Category {
-  id       String    @id @default(uuid())
-  name     String    @unique
-  expenses Expense[]
-}
-
-model Expense {
-  id          String   @id @default(uuid())
+model Transaction {
+  id          String          @id @default(uuid())
   description String
   amount      Float
   date        DateTime
-  createdAt   DateTime @default(now())
+  createdAt   DateTime        @default(now())
+  type        TransactionT
 
   userId String
   user   User   @relation(fields: [userId], references: [id])
 
-  category   Category? @relation(fields: [categoryId], references: [id])
-  categoryId String?
+  category String
 }

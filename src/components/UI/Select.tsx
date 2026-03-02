@@ -21,7 +21,6 @@ const Select = <T extends FieldValues>({
 	...props
 }: Props<T>) => {
 	const [isOpen, setIsOpen] = useState(false)
-
 	return (
 		<div className='label-input-div'>
 			<label htmlFor={name}>{label}</label>

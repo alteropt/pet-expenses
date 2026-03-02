@@ -11,7 +11,7 @@ const Modal = ({ children }: { children: React.ReactNode }) => {
 
 	return (
 		<div className='inset-0 absolute backdrop-blur-xs w-full h-full bg-white/10 z-10 flex items-center justify-center'>
-			<div className='bg-white shadow-lg w-2/5 py-8 px-10 relative overflow-x-hidden scrollbar-stable overflow-y-auto h-9/10'>
+			<div className='bg-white shadow-lg w-2/5 py-8 px-10 relative overflow-x-hidden scrollbar-stable overflow-y-auto h-9/10 scrollbar'>
 				{children}
 				<button
 					className='absolute top-7 right-2 p-1.5 rounded-md transition-colors duration-300 hover:bg-gray-200/40'

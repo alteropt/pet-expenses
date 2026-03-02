@@ -1,10 +1,19 @@
 'use client'
 
-import { TRANSACTION_CATEGORIES } from '@/constants/transaction-categories.constants'
-import { ManageExpenseSchema } from '@/schemas/manage-expense.schema'
+import { addTransaction } from '@/actions/addTransaction'
+import {
+	EXPENSE_CATEGORIES,
+	INCOME_CATEGORIES,
+} from '@/constants/transaction-categories.constants'
+import {
+	ManageTransactionSchema,
+	ManageTransactionSchemaType,
+} from '@/schemas/manage-expense.schema'
 import { useModal } from '@/store/modal.store'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Controller, useForm } from 'react-hook-form'
+import { TransactionT } from '@prisma/client'
+import { useEffect } from 'react'
+import { Controller, useForm, useWatch } from 'react-hook-form'
 import Button from '../UI/Button'
 import InputField from '../UI/InputField'
 import Select from '../UI/Select'
@@ -16,23 +25,42 @@ const ManageTransactionForm = () => {
 	const {
 		control,
 		register,
+		setValue,
 		handleSubmit,
 		formState: { errors, isSubmitting },
 	} = useForm({
-		resolver: zodResolver(ManageExpenseSchema),
+		resolver: zodResolver(ManageTransactionSchema),
 		defaultValues: {
-			transactionType: 'expense',
+			transactionType: TransactionT.EXPENSE,
 			date: new Date().toISOString().split('T')[0],
-			category: TRANSACTION_CATEGORIES[0],
+			category: EXPENSE_CATEGORIES[0],
 			description: '',
 			amount: 0,
 		},
 		mode: 'onSubmit',
 	})
 
+	const transactionType = useWatch({ control, name: 'transactionType' })
+	const categories =
+		transactionType === TransactionT.EXPENSE
+			? EXPENSE_CATEGORIES
+			: INCOME_CATEGORIES
+
+	useEffect(() => {
+		setValue('category', categories[0])
+	}, [transactionType, categories, setValue])
+
 	const close = useModal(state => state.close)
 
-	function onSubmit() {}
+	async function onSubmit(data: ManageTransactionSchemaType) {
+		try {
+			await addTransaction(data)
+		} catch {
+			console.error('Error adding transaction')
+		} finally {
+			close()
+		}
+	}
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className='form-default'>
@@ -48,22 +76,22 @@ const ManageTransactionForm = () => {
 							<div className='flex justify-between gap-2'>
 								<button
 									className={`${buttonClasses} ${
-										value === 'expense'
+										value === TransactionT.EXPENSE
 											? 'border-red-500 bg-red-500/15 text-red-600'
 											: 'button-effect'
 									}`}
-									onClick={() => onChange('expense')}
+									onClick={() => onChange(TransactionT.EXPENSE)}
 									type='button'
 								>
 									Expense
 								</button>
 								<button
 									className={`${buttonClasses} ${
-										value === 'income'
+										value === TransactionT.INCOME
 											? 'border-green-500 bg-green-500/15 text-green-600'
 											: 'button-effect'
 									}`}
-									onClick={() => onChange('income')}
+									onClick={() => onChange(TransactionT.INCOME)}
 									type='button'
 								>
 									Income
@@ -82,11 +110,12 @@ const ManageTransactionForm = () => {
 				{...register('date')}
 			/>
 			<Select
-				options={TRANSACTION_CATEGORIES}
+				options={categories}
 				control={control}
 				name='category'
 				label='Category'
 				className='py-3'
+				key={transactionType}
 			/>
 			<InputField
 				label='Description'
@@ -111,7 +140,9 @@ const ManageTransactionForm = () => {
 				<Button className='grow basis-1/2' variant='default' onClick={close}>
 					Cancel
 				</Button>
-				<Button className='grow basis-1/2'>Add Transaction</Button>
+				<Button className='grow basis-1/2' type='submit'>
+					Add Transaction
+				</Button>
 			</div>
 		</form>
 	)
