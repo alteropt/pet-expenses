@@ -1,21 +1,16 @@
 'use client'
 
-import { RegisetUser } from '@/actions/register'
+import { useRegisterForm } from '@/hooks/useAuthForm.hooks'
 import {
 	RegisterUserSchema,
 	RegisterUserSchemaType,
 } from '@/schemas/auth.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import Button from '../UI/Button'
 import InputField from '../UI/InputField'
 
 const RegisterForm = () => {
-	const [serverError, setServerError] = useState<string | null>(null)
-	const router = useRouter()
-
 	const {
 		register,
 		handleSubmit,
@@ -26,13 +21,7 @@ const RegisterForm = () => {
 		resolver: zodResolver(RegisterUserSchema),
 	})
 
-	const onSubmit: SubmitHandler<RegisterUserSchemaType> = async data => {
-		const isSuccess = await RegisetUser(data, setServerError, router)
-		if (isSuccess) {
-			reset()
-			clearErrors()
-		}
-	}
+	const { onSubmit, serverError } = useRegisterForm({ reset, clearErrors })
 
 	return (
 		<form
@@ -81,7 +70,7 @@ const RegisterForm = () => {
 			/>
 
 			<Button disabled={isSubmitting} type='submit'>
-				Sign Up
+				{isSubmitting ? 'Signing Up...' : 'Sign Up'}
 			</Button>
 		</form>
 	)

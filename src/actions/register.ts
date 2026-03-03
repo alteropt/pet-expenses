@@ -1,30 +1,24 @@
 import { RegisterUserSchemaType } from '@/schemas/auth.schema'
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
-import { Dispatch, SetStateAction } from 'react'
-import { LoginUser } from './login'
+import { loginUser } from './login'
 
-export async function RegisetUser(
-	data: RegisterUserSchemaType,
-	setServerError: Dispatch<SetStateAction<string | null>>,
-	router: AppRouterInstance,
-) {
+export async function registerUser(data: RegisterUserSchemaType) {
 	try {
 		const response = await fetch('/api/register', {
 			method: 'POST',
 			body: JSON.stringify(data),
 		})
 
-		if (response.ok) {
-			setServerError('')
-			LoginUser(data.email, data.password, setServerError, router)
-			return true
-		} else {
-			const errorData = await response.json()
-			setServerError(errorData.error || 'Server Error')
-			return false
-		}
+		if (!response.ok) return { error: 'User already exists', success: false }
+
+		const isLoginOk = await loginUser({
+			email: data.email,
+			password: data.password,
+		})
+
+		return isLoginOk
+			? { error: null, success: true }
+			: { error: 'Login failed', success: false }
 	} catch {
-		setServerError('Error with connection to the server')
-		return false
+		return { error: 'Server Error', success: false }
 	}
 }

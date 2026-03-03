@@ -2,9 +2,7 @@ import { cn } from '@/lib/cn'
 
 type ButtonProps = {
 	variant?: 'default' | 'primary'
-	type?: 'submit' | 'reset' | 'button'
 	children: React.ReactNode
-	className?: string
 } & React.ButtonHTMLAttributes<HTMLButtonElement>
 
 const Button = ({

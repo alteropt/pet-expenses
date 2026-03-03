@@ -3,9 +3,8 @@ import { cn } from '@/lib/cn'
 import Link from 'next/link'
 
 type NavLinkProps = NavLink & {
-	className?: string
 	isActive?: boolean
-}
+} & React.AnchorHTMLAttributes<HTMLAnchorElement>
 
 const NavLink = ({ href, label, className, isActive }: NavLinkProps) => {
 	return (

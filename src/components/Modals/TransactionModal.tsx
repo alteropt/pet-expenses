@@ -1,4 +1,4 @@
-import ManageTransactionForm from '../Forms/ManageTransactionForm'
+import ManageTransactionForm from '../Forms/ManageTransactionForm/ManageTransactionForm'
 import Modal from './Modal'
 
 const TransactionModal = () => {

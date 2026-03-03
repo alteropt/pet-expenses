@@ -1,11 +1,9 @@
 'use client'
 
-import { LoginUser } from '@/actions/login'
-import { LoginUserSchema, LoginUserSchemaType } from '@/schemas/auth.schema'
+import { useLoginForm } from '@/hooks/useAuthForm.hooks'
+import { LoginUserSchema } from '@/schemas/auth.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import Button from '../UI/Button'
 import InputField from '../UI/InputField'
 
@@ -14,26 +12,13 @@ const LoginForm = () => {
 		register,
 		reset,
 		handleSubmit,
+		clearErrors,
 		formState: { errors, isSubmitting },
 	} = useForm({
 		resolver: zodResolver(LoginUserSchema),
 	})
 
-	const router = useRouter()
-	const [serverError, setServerError] = useState<string | null>(null)
-
-	const onSubmit: SubmitHandler<LoginUserSchemaType> = async function (data) {
-		const isSuccess = await LoginUser(
-			data.email,
-			data.password,
-			setServerError,
-			router,
-		)
-		if (isSuccess) {
-			setServerError('')
-			reset()
-		}
-	}
+	const { onSubmit, serverError } = useLoginForm({ reset, clearErrors })
 
 	return (
 		<form
@@ -60,7 +45,7 @@ const LoginForm = () => {
 			{serverError && <p className='text-red-500 text-sm'>{serverError}</p>}
 
 			<Button disabled={isSubmitting} type='submit'>
-				Sign In
+				{isSubmitting ? 'Signing In...' : 'Sign In'}
 			</Button>
 		</form>
 	)

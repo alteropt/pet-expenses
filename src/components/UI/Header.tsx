@@ -1,8 +1,8 @@
 import { HEADER_HEIGHT } from '@/constants/styles.constants'
-import Navigation from './Navigation'
-import ProfileName from './ProfileInfo/ProfileName'
-import Container from './UI/Container'
-import Logo from './UI/Logo'
+import Container from './Container'
+import Logo from './Logo'
+import Navigation from '../Navigation'
+import ProfileName from '../ProfileInfo/ProfileName'
 
 const Header = () => {
 	return (

@@ -1,1 +1,1 @@
-export const HEADER_HEIGHT = 68
+export const HEADER_HEIGHT = 68 as const

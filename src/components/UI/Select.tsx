@@ -23,7 +23,7 @@ const Select = <T extends FieldValues>({
 	const [isOpen, setIsOpen] = useState(false)
 	return (
 		<div className='label-input-div'>
-			<label htmlFor={name}>{label}</label>
+			<label htmlFor={name} className='label'>{label}</label>
 			<Controller
 				control={control}
 				name={name}

@@ -2,8 +2,10 @@
 
 import { authOptions } from '@/lib/auth'
 import prisma from '@/lib/prisma'
-import { ManageTransactionSchemaType } from '@/schemas/manage-expense.schema'
-import { TransactionT } from '@prisma/client'
+import {
+	ManageTransactionSchema,
+	ManageTransactionSchemaType,
+} from '@/schemas/manage-expense.schema'
 import { getServerSession } from 'next-auth'
 
 export async function addTransaction(
@@ -18,16 +20,16 @@ export async function addTransaction(
 		}
 	}
 
-	const transaction = await prisma.transaction.create({
+	const parsedData = ManageTransactionSchema.parse(data)
+
+	return await prisma.transaction.create({
 		data: {
-			amount: Number(data.amount),
-			category: data.category,
-			description: data.description,
-			date: new Date(data.date),
-			type: data.transactionType as TransactionT,
+			amount: parsedData.amount,
+			category: parsedData.category,
+			description: parsedData.description,
+			date: parsedData.date,
+			type: parsedData.transactionType,
 			userId: userId,
 		},
 	})
-
-	return transaction
 }

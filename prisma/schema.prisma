@@ -6,7 +6,7 @@ datasource db {
   provider = "postgresql"
 }
 
-enum TransactionT {
+enum TransactionTypeEnum {
   INCOME
   EXPENSE
 }
@@ -28,7 +28,7 @@ model Transaction {
   amount      Float
   date        DateTime
   createdAt   DateTime        @default(now())
-  type        TransactionT
+  type        TransactionTypeEnum
 
   userId String
   user   User   @relation(fields: [userId], references: [id])

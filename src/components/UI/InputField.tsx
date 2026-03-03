@@ -14,10 +14,7 @@ const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
 	({ label, error, id, className, ...props }, ref) => {
 		return (
 			<div className='label-input-div'>
-				<label
-					htmlFor={id ?? props.name}
-					className='font-medium opacity-70 inline-block'
-				>
+				<label htmlFor={id ?? props.name} className='label'>
 					{label}
 				</label>
 				<input

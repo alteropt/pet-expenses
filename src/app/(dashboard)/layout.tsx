@@ -1,8 +1,7 @@
 import '@/app/globals.css'
-import Header from '@/components/Header'
 import TransactionModal from '@/components/Modals/TransactionModal'
+import Header from '@/components/UI/Header'
 import type { Metadata } from 'next'
-
 import { Inter } from 'next/font/google'
 
 export const metadata: Metadata = {

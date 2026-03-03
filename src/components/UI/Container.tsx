@@ -3,7 +3,6 @@ import { ReactNode } from 'react'
 
 type ContainerProps = {
 	children: ReactNode
-	className?: string
 } & React.HTMLAttributes<HTMLDivElement>
 
 const Container = ({ children, className, ...props }: ContainerProps) => {

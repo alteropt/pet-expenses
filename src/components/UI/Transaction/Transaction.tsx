@@ -1,3 +1,4 @@
+import { TransactionTypeEnum } from '@prisma/client'
 import { SquarePen, Trash2 } from 'lucide-react'
 import TransactionAmount from './TransactionAmount'
 import TransactionCategory from './TransactionCategory'
@@ -11,7 +12,7 @@ const Transaction = () => {
 			<p>Grocery Shopping</p>
 
 			<TransactionAmount amount={-85.5} />
-			<TransactionType type='expense' />
+			<TransactionType type={TransactionTypeEnum.EXPENSE} />
 			<div className='flex gap-1 items-center'>
 				<div className='opacity-30 hover:opacity-100 hover:text-(--active) hover:bg-(--active)/10 p-2 rounded-full transition-all'>
 					<SquarePen size={20} />
