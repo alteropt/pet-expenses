@@ -9,6 +9,7 @@ import {
 	ManageTransactionSchema,
 	ManageTransactionSchemaType,
 } from '@/schemas/manage-expense.schema'
+import { useModal } from '@/store/modal.store'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { TransactionTypeEnum } from '@prisma/client'
 import { useEffect } from 'react'
@@ -28,13 +29,14 @@ const ManageTransactionForm = () => {
 	} = useForm<ManageTransactionSchemaType>({
 		resolver: zodResolver(ManageTransactionSchema),
 		defaultValues: {
-			transactionType: TransactionTypeEnum.EXPENSE,
+			type: TransactionTypeEnum.EXPENSE,
 			category: EXPENSE_CATEGORIES[0],
+			date: new Date().toISOString().split('T')[0] as unknown as Date,
 		},
 		mode: 'onSubmit',
 	})
 
-	const transactionType = useWatch({ control, name: 'transactionType' })
+	const transactionType = useWatch({ control, name: 'type' })
 	const categories =
 		transactionType === TransactionTypeEnum.EXPENSE
 			? EXPENSE_CATEGORIES
@@ -45,12 +47,13 @@ const ManageTransactionForm = () => {
 	}, [transactionType, categories, setValue])
 
 	const { onSubmit } = useManageTransactionForm()
+	const close = useModal(state => state.close)
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className='form-default'>
 			<TransactionTypeSelect
 				control={control}
-				name='transactionType'
+				name='type'
 				label='Transaction Type'
 			/>
 			<InputField
@@ -89,7 +92,12 @@ const ManageTransactionForm = () => {
 			/>
 
 			<div className='flex gap-2 mt-5'>
-				<Button className='grow basis-1/2' variant='default' onClick={close}>
+				<Button
+					className='grow basis-1/2'
+					variant='default'
+					onClick={close}
+					type='button'
+				>
 					Cancel
 				</Button>
 				<Button className='grow basis-1/2' type='submit'>

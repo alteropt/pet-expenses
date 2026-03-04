@@ -9,7 +9,7 @@ type TransactionCategoryName =
 
 const TransactionCategory = ({ name }: { name: TransactionCategoryName }) => {
 	return (
-		<div className='text-(--active) bg-(--active)/10 font-medium px-4 py-1 rounded-2xl'>
+		<div className='text-(--active) bg-(--active)/10 font-medium px-4 py-1 rounded-2xl w-fit'>
 			{name}
 		</div>
 	)

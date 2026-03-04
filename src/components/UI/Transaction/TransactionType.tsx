@@ -6,7 +6,7 @@ const TransactionType = ({ type }: { type: TransactionTypeEnum }) => {
 	return (
 		<div
 			className={cn(
-				'flex gap-2 items-center font-semibold px-3 py-1 rounded-2xl',
+				'flex gap-2 items-center justify-center font-semibold py-1 px-3 rounded-2xl w-fit',
 				type === TransactionTypeEnum.EXPENSE && 'text-red-600 bg-red-400/20',
 				type === TransactionTypeEnum.INCOME && 'text-green-500 bg-green-500/20',
 			)}

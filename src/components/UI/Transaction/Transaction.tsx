@@ -1,25 +1,37 @@
-import { TransactionTypeEnum } from '@prisma/client'
+'use client'
+
+import { deleteTransaction } from '@/actions/deleteTransaction'
+import { formatDate } from '@/lib/formatDate'
+import { ManageTransactionSchemaType } from '@/schemas/manage-expense.schema'
 import { SquarePen, Trash2 } from 'lucide-react'
 import TransactionAmount from './TransactionAmount'
 import TransactionCategory from './TransactionCategory'
 import TransactionType from './TransactionType'
 
-const Transaction = () => {
-	return (
-		<div className='flex justify-between items-center text-sm'>
-			<span className='opacity-70'>Jan 28, 2026</span>
-			<TransactionCategory name='Food' />
-			<p>Grocery Shopping</p>
+type Transaction = {
+	data: ManageTransactionSchemaType & { id: string }
+}
 
-			<TransactionAmount amount={-85.5} />
-			<TransactionType type={TransactionTypeEnum.EXPENSE} />
-			<div className='flex gap-1 items-center'>
-				<div className='opacity-30 hover:opacity-100 hover:text-(--active) hover:bg-(--active)/10 p-2 rounded-full transition-all'>
+const Transaction = ({ data: transaction }: Transaction) => {
+	return (
+		<div className='grid grid-cols-[1fr_1fr_2fr_1fr_2fr_1fr] items-center text-sm'>
+			<span className='opacity-70'>{formatDate(transaction.date)}</span>
+			<TransactionCategory name='Food' />
+			<p>{transaction.description}</p>
+
+			<TransactionAmount amount={transaction.amount} />
+			<TransactionType type={transaction.type} />
+			<div className='flex gap-1 items-center justify-end'>
+				<button className='opacity-30 hover:opacity-100 hover:text-(--active) hover:bg-(--active)/10 p-2 rounded-full transition-all'>
 					<SquarePen size={20} />
-				</div>
-				<div className='opacity-30 hover:opacity-100 hover:text-red-500 hover:bg-red-500/10 p-2 rounded-full transition-all duration-300'>
+				</button>
+				<button
+					onClick={() => deleteTransaction(transaction.id)}
+					type='button'
+					className='opacity-30 hover:opacity-100 hover:text-red-500 hover:bg-red-500/10 p-2 rounded-full transition-all duration-300'
+				>
 					<Trash2 size={20} />
-				</div>
+				</button>
 			</div>
 		</div>
 	)

@@ -8,7 +8,7 @@ const TransactionAmount = ({ amount }: { amount: number }) => {
 				amount < 0 ? 'text-red-500' : 'text-green-500',
 			)}
 		>
-			{amount < 0 ? '-' : ''}${Math.abs(amount).toFixed(2)}
+			{amount < 0 ? '-' : <span>&nbsp;</span>}${Math.abs(amount).toFixed(2)}
 		</span>
 	)
 }
