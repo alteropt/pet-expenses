@@ -1,6 +1,6 @@
+import { cardConfig } from '@/config/BalanceCard.config'
 import { cn } from '@/lib/cn'
-import { cardConfig } from './BalanceCard.config'
-import { CardVariant } from './BalanceCard.types'
+import { CardVariant } from '@/types/BalanceCard.types'
 
 type BalanceCardProps = {
 	variant: CardVariant

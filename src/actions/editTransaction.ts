@@ -1,28 +1,26 @@
 'use server'
 
-import { getUserId } from '@/lib/getUserId'
 import prisma from '@/lib/prisma'
 import { ManageTransactionSchema } from '@/schemas/manage-expense.schema'
 import { TransactionType } from '@/types/transaction.type'
 import { revalidatePath } from 'next/cache'
 
-export async function addTransaction(
-	data: Omit<TransactionType, 'id' | 'createdAt' | 'userId'>,
+export async function editTransaction(
+	data: Omit<TransactionType, 'createdAt' | 'userId'>,
 ) {
 	const parsedData = ManageTransactionSchema.parse(data)
-	const userId = await getUserId()
-
-	if (!userId) throw new Error('User not found')
 
 	try {
-		const transaction = await prisma.transaction.create({
+		const transaction = prisma.transaction.update({
+			where: {
+				id: data.id,
+			},
 			data: {
 				amount: parsedData.amount,
 				category: parsedData.category,
 				description: parsedData.description,
 				date: parsedData.date,
 				type: parsedData.type,
-				userId: userId,
 			},
 		})
 

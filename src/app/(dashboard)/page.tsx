@@ -1,4 +1,4 @@
-import BalanceCard from '@/components/UI/BalanceCard/BalanceCard'
+import BalanceCard from '@/components/UI/BalanceCard'
 import Button from '@/components/UI/Button'
 import Container from '@/components/UI/Container'
 import { HEADER_HEIGHT } from '@/constants/styles.constants'

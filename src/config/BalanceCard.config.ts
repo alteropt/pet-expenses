@@ -1,5 +1,5 @@
 import { DollarSign, TrendingDown, TrendingUp } from 'lucide-react'
-import { CardConfig, CardVariant } from './BalanceCard.types'
+import { CardConfig, CardVariant } from '../types/BalanceCard.types'
 
 export const cardConfig: Record<CardVariant, CardConfig> = {
 	total: {

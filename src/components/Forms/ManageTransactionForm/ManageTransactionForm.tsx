@@ -3,6 +3,7 @@
 import {
 	EXPENSE_CATEGORIES,
 	INCOME_CATEGORIES,
+	TRANSACTION_CATEGORIES,
 } from '@/constants/transaction-categories.constants'
 import { useManageTransactionForm } from '@/hooks/useManageTransactionForm.hooks'
 import {
@@ -10,6 +11,7 @@ import {
 	ManageTransactionSchemaType,
 } from '@/schemas/manage-expense.schema'
 import { useModal } from '@/store/modal.store'
+import { ModalType } from '@/types/ModalType.type'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { TransactionTypeEnum } from '@prisma/client'
 import { useEffect } from 'react'
@@ -19,7 +21,28 @@ import InputField from '../../UI/InputField'
 import Select from '../../UI/Select'
 import TransactionTypeSelect from './TransactionTypeSelect'
 
-const ManageTransactionForm = () => {
+const ManageTransactionForm = ({ type }: { type: ModalType }) => {
+	const close = useModal(state => state.close)
+	const transactionData = useModal(state => state.data)
+
+	const defaultValues =
+		transactionData && type === 'edit-expense'
+			? {
+					amount: transactionData.amount,
+					category:
+						transactionData.category as (typeof TRANSACTION_CATEGORIES)[number],
+					description: transactionData.description,
+					date: transactionData.date
+						.toISOString()
+						.split('T')[0] as unknown as Date,
+					type: transactionData.type,
+				}
+			: {
+					type: TransactionTypeEnum.EXPENSE,
+					category: EXPENSE_CATEGORIES[0],
+					date: new Date().toISOString().split('T')[0] as unknown as Date,
+				}
+
 	const {
 		control,
 		register,
@@ -28,11 +51,7 @@ const ManageTransactionForm = () => {
 		formState: { errors, isSubmitting },
 	} = useForm<ManageTransactionSchemaType>({
 		resolver: zodResolver(ManageTransactionSchema),
-		defaultValues: {
-			type: TransactionTypeEnum.EXPENSE,
-			category: EXPENSE_CATEGORIES[0],
-			date: new Date().toISOString().split('T')[0] as unknown as Date,
-		},
+		defaultValues: defaultValues,
 		mode: 'onSubmit',
 	})
 
@@ -46,8 +65,11 @@ const ManageTransactionForm = () => {
 		setValue('category', categories[0])
 	}, [transactionType, categories, setValue])
 
-	const { onSubmit } = useManageTransactionForm()
-	const close = useModal(state => state.close)
+	const { onSubmit } = useManageTransactionForm(
+		type === 'edit-expense'
+			? { type: 'edit-expense', transactionData: transactionData! }
+			: { type: 'create-expense' },
+	)
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className='form-default'>
@@ -101,7 +123,11 @@ const ManageTransactionForm = () => {
 					Cancel
 				</Button>
 				<Button className='grow basis-1/2' type='submit'>
-					{isSubmitting ? 'Saving...' : 'Add Transaction'}
+					{isSubmitting
+						? 'Saving...'
+						: type === 'create-expense'
+							? 'Add Transaction'
+							: 'Edit Transaction'}
 				</Button>
 			</div>
 		</form>
