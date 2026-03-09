@@ -1,4 +1,3 @@
-import BalanceCard from '@/components/UI/BalanceCard'
 import Button from '@/components/UI/Button'
 import Container from '@/components/UI/Container'
 import { HEADER_HEIGHT } from '@/constants/styles.constants'
@@ -25,11 +24,7 @@ export default async function Home() {
 
 	return (
 		<Container>
-			<section className='flex gap-6 pt-10 '>
-				<BalanceCard variant='total' className='flex-1' amount={19207} />
-				<BalanceCard variant='income' className='flex-1' amount={0.0} />
-				<BalanceCard variant='expense' className='flex-1' amount={0.0} />
-			</section>
+			<section className='flex gap-6 pt-10 '></section>
 		</Container>
 	)
 }

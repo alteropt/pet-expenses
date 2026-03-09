@@ -65,7 +65,7 @@ const ManageTransactionForm = ({ type }: { type: ModalType }) => {
 		setValue('category', categories[0])
 	}, [transactionType, categories, setValue])
 
-	const { onSubmit } = useManageTransactionForm(
+	const { onSubmit, error } = useManageTransactionForm(
 		type === 'edit-expense'
 			? { type: 'edit-expense', transactionData: transactionData! }
 			: { type: 'create-expense' },
@@ -112,6 +112,8 @@ const ManageTransactionForm = ({ type }: { type: ModalType }) => {
 				error={errors.amount?.message}
 				{...register('amount', { valueAsNumber: true })}
 			/>
+
+			{error && <p className='error-message'>{error}</p>}
 
 			<div className='flex gap-2 mt-5'>
 				<Button

@@ -37,4 +37,8 @@
 	.label {
 		@apply font-medium opacity-70 inline-block;
 	}
+
+	.error-message {
+		@apply text-red-500 text-sm;
+	}
 }

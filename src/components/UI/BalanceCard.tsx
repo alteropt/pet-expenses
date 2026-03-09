@@ -9,31 +9,51 @@ type BalanceCardProps = {
 }
 
 const BalanceCard = ({ variant, amount, className }: BalanceCardProps) => {
-	const Icon = cardConfig[variant].icon
+	const Icon = cardConfig[variant]?.icon
 	const amountWithTwoDecimals = amount.toFixed(2)
 
 	return (
 		<div
 			className={cn(
-				`min-w-75 w-fit rounded-lg px-6 py-8 relative ${cardConfig[variant].className}`,
+				`min-w-75 w-fit rounded-lg px-6 py-8 relative flex-1 ${cardConfig[variant].className}`,
 				className,
 			)}
 		>
-			<h4 className='font-semibold opacity-70 text-sm mb-5'>
+			<h4
+				className={cn(
+					'font-semibold opacity-70 text-sm mb-5',
+					!!cardConfig[variant].titleClassName &&
+						cardConfig[variant].titleClassName,
+				)}
+			>
 				{cardConfig[variant].title}
 			</h4>
 			<div>
-				<span className='text-4xl font-bold block mb-1'>
-					${amountWithTwoDecimals}
+				<span
+					className={cn(
+						'text-4xl font-bold block mb-1',
+						!!cardConfig[variant].amountClassName &&
+							cardConfig[variant].amountClassName,
+					)}
+				>
+					{variant === 'transactions-total'
+						? amount
+						: `$${amountWithTwoDecimals}`}
 				</span>
-				<p className='opacity-70 text-sm'>{cardConfig[variant].description}</p>
+				{cardConfig[variant].description && (
+					<p className='opacity-70 text-sm'>
+						{cardConfig[variant].description}
+					</p>
+				)}
 			</div>
 
-			<div
-				className={`absolute top-6 right-6 p-1.5 rounded-lg ${cardConfig[variant].iconClassName}`}
-			>
-				<Icon {...cardConfig[variant].iconProps} />
-			</div>
+			{Icon && (
+				<div
+					className={`absolute top-6 right-6 p-1.5 rounded-lg ${cardConfig[variant]?.iconClassName}`}
+				>
+					<Icon {...cardConfig[variant].iconProps} />
+				</div>
+			)}
 		</div>
 	)
 }

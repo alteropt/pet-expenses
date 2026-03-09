@@ -7,7 +7,7 @@ type InputFieldProps = {
 } & InputHTMLAttributes<HTMLInputElement>
 
 const InvalidInput = ({ message }: { message: string }) => {
-	return <p className='text-red-500 text-sm'>{message}</p>
+	return <p className='error-message'>{message}</p>
 }
 
 const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(

@@ -42,7 +42,7 @@ const LoginForm = () => {
 				error={errors.password?.message}
 				{...register('password')}
 			/>
-			{serverError && <p className='text-red-500 text-sm'>{serverError}</p>}
+			{serverError && <p className='error-message'>{serverError}</p>}
 
 			<Button disabled={isSubmitting} type='submit'>
 				{isSubmitting ? 'Signing In...' : 'Sign In'}

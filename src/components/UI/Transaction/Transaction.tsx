@@ -7,7 +7,9 @@ import { useModal } from '@/store/modal.store'
 import { TransactionType as TransactionT } from '@/types/transaction.type'
 import { SquarePen, Trash2 } from 'lucide-react'
 import TransactionAmount from './TransactionAmount'
-import TransactionCategory from './TransactionCategory'
+import TransactionCategory, {
+	TransactionCategoryName,
+} from './TransactionCategory'
 import TransactionType from './TransactionType'
 
 type Transaction = {
@@ -20,8 +22,10 @@ const Transaction = ({ data: transaction }: { data: TransactionT }) => {
 	return (
 		<div className='grid grid-cols-[1fr_1fr_2fr_1fr_2fr_1fr] items-center text-sm'>
 			<span className='opacity-70'>{formatDate(transaction.date)}</span>
-			<TransactionCategory name='Food' />
-			<p>{transaction.description}</p>
+			<TransactionCategory
+				name={transaction.category as TransactionCategoryName}
+			/>
+			<p className='pr-1'>{transaction.description}</p>
 
 			<TransactionAmount amount={transaction.amount} />
 			<TransactionType type={transaction.type} />

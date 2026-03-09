@@ -3,7 +3,7 @@ import {
 	INCOME_CATEGORIES,
 } from '@/constants/transaction-categories.constants'
 
-type TransactionCategoryName =
+export type TransactionCategoryName =
 	| (typeof INCOME_CATEGORIES)[number]
 	| (typeof EXPENSE_CATEGORIES)[number]
 
