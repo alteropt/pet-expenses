@@ -1,5 +1,4 @@
-import AddTransactionModalOpenButton from '@/components/AddTransactionModalOpenButton'
-import TransactionsList from '@/components/TransactionsList'
+import AllTransactionsSection from '@/components/AllTransactionsSection'
 import BalanceCard from '@/components/UI/BalanceCard'
 import Container from '@/components/UI/Container'
 import { getUserId } from '@/lib/getUserId'
@@ -20,10 +19,12 @@ const ExpensesPage = async () => {
 		if (transaction.type === 'INCOME') return acc + transaction.amount
 		return acc
 	}, 0)
+
 	const totalExpense = transactions.reduce((acc, transaction) => {
 		if (transaction.type === 'EXPENSE') return acc + transaction.amount
 		return acc
 	}, 0)
+
 	const totalTransactions = transactions.length
 
 	return (
@@ -44,14 +45,7 @@ const ExpensesPage = async () => {
 					<BalanceCard variant='income-total' amount={totalIncome} />
 					<BalanceCard variant='expense-total' amount={totalExpense} />
 				</div>
-
-				<div className='bg-white rounded-xl shadow-md px-6 py-4'>
-					<div className='flex justify-between items-center mb-2'>
-						<h2 className='font-medium text-xl'>All Transactions</h2>
-						<AddTransactionModalOpenButton />
-					</div>
-					<TransactionsList transactions={transactions} />
-				</div>
+				<AllTransactionsSection transactions={transactions} />
 			</div>
 		</Container>
 	)
