@@ -1,7 +1,7 @@
 import { LucideIcon, LucideProps } from 'lucide-react'
 
 export type CardVariant =
-	| 'total-month'
+	| 'total-balance'
 	| 'income-month'
 	| 'expense-month'
 	| 'income-total'

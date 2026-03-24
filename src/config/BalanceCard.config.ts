@@ -2,7 +2,7 @@ import { DollarSign, TrendingDown, TrendingUp } from 'lucide-react'
 import { CardConfig, CardVariant } from '../types/BalanceCard.types'
 
 export const cardConfig: Record<CardVariant, CardConfig> = {
-	'total-month': {
+	'total-balance': {
 		className: 'bg-linear-to-r from-(--active)/70 to-(--active) text-white',
 		title: 'Total Balance',
 		description: 'Total Balance',

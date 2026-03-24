@@ -1,30 +1,54 @@
-import Button from '@/components/UI/Button'
+import BalanceCard from '@/components/UI/BalanceCard'
 import Container from '@/components/UI/Container'
-import { HEADER_HEIGHT } from '@/constants/styles.constants'
-import { authOptions } from '@/lib/auth'
-import { getServerSession } from 'next-auth'
-import Link from 'next/link'
+import { getTotalByMonth } from '@/lib/balance-calculation'
+import { getUserId } from '@/lib/getUserId'
+import prisma from '@/lib/prisma'
+import { TransactionTypeEnum } from '@prisma/client'
+
+const currentMonth = new Date().getMonth()
+const currentYear = new Date().getFullYear()
 
 export default async function Home() {
-	const session = await getServerSession(authOptions)
-	if (!session)
-		return (
-			<Container
-				className='flex justify-center flex-col items-center gap-4'
-				style={{ height: `calc(100vh - ${HEADER_HEIGHT}px)` }}
-			>
-				<h2 className='font-bold text-4xl text-red-400 text-center'>
-					To see this page you <br /> must be logged in!
-				</h2>
-				<Link href='/login'>
-					<Button>Log In</Button>
-				</Link>
-			</Container>
-		)
+	const userId = await getUserId()
+
+	const transactions = await prisma.transaction.findMany({
+		where: {
+			userId: userId,
+		},
+		orderBy: { date: 'desc' },
+	})
+
+	console.log(transactions)
+
+	const totalBalance = transactions.reduce((acc, transaction) => {
+		if (transaction.type === 'EXPENSE') {
+			return acc - transaction.amount
+		} else {
+			return acc + transaction.amount
+		}
+	}, 0)
+
+	const monthlyIncome = getTotalByMonth(
+		transactions,
+		currentMonth,
+		currentYear,
+		TransactionTypeEnum.INCOME,
+	)
+
+	const monthlyExpense = getTotalByMonth(
+		transactions,
+		currentMonth,
+		currentYear,
+		TransactionTypeEnum.EXPENSE,
+	)
 
 	return (
 		<Container>
-			<section className='flex gap-6 pt-10 '></section>
+			<section className='flex gap-6 pt-10 '>
+				<BalanceCard variant='total-balance' amount={totalBalance} />
+				<BalanceCard variant='income-month' amount={monthlyIncome} />
+				<BalanceCard variant='expense-month' amount={monthlyExpense} />
+			</section>
 		</Container>
 	)
 }

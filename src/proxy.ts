@@ -4,4 +4,4 @@ export default withAuth({
 		signIn: '/login',
 	},
 })
-export const config = { matcher: ['/', '/expenses'] }
+export const config = { matcher: ['/', '/expenses', '/summary'] }

@@ -41,9 +41,29 @@ const TransactionChart = ({
 		[],
 	)
 
+	if (resultingData.length === 0) {
+		return (
+			<div className='mt-8 text-center w-1/2'>
+				<h2 className='text-center font-medium text-2xl'>
+					{transactionType.charAt(0).toUpperCase() +
+						transactionType.slice(1).toLowerCase() +
+						's'}{' '}
+					Stats
+				</h2>
+				<p>
+					No{' '}
+					{transactionType.charAt(0).toUpperCase() +
+						transactionType.slice(1).toLowerCase() +
+						's'}{' '}
+					found!
+				</p>
+			</div>
+		)
+	}
+
 	return (
-		<div className='w-full'>
-			<h2 className='mt-8 text-center font-medium text-2xl'>
+		<div className='w-full mt-8'>
+			<h2 className='text-center font-medium text-2xl'>
 				{transactionType.charAt(0).toUpperCase() +
 					transactionType.slice(1).toLowerCase() +
 					's'}{' '}

@@ -17,7 +17,7 @@ const SummaryPage = async () => {
 
 	return (
 		<Container>
-			<div className='flex'>
+			<div className='flex gap-1 justify-around'>
 				<TransactionChart
 					data={transactions}
 					transactionType={TransactionTypeEnum.EXPENSE}
