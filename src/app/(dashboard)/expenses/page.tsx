@@ -1,8 +1,10 @@
 import AllTransactionsSection from '@/components/AllTransactionsSection'
 import BalanceCard from '@/components/UI/BalanceCard'
 import Container from '@/components/UI/Container'
+import { getTotal } from '@/lib/balance-calculation'
 import { getUserId } from '@/lib/getUserId'
 import prisma from '@/lib/prisma'
+import { TransactionTypeEnum } from '@prisma/client'
 
 const ExpensesPage = async () => {
 	const userId = await getUserId()
@@ -15,16 +17,8 @@ const ExpensesPage = async () => {
 		orderBy: { date: 'desc' },
 	})
 
-	const totalIncome = transactions.reduce((acc, transaction) => {
-		if (transaction.type === 'INCOME') return acc + transaction.amount
-		return acc
-	}, 0)
-
-	const totalExpense = transactions.reduce((acc, transaction) => {
-		if (transaction.type === 'EXPENSE') return acc + transaction.amount
-		return acc
-	}, 0)
-
+	const totalIncome = getTotal(transactions, TransactionTypeEnum.INCOME)
+	const totalExpense = getTotal(transactions, TransactionTypeEnum.EXPENSE)
 	const totalTransactions = transactions.length
 
 	return (
@@ -37,14 +31,14 @@ const ExpensesPage = async () => {
 					</p>
 				</div>
 
-				<div className='flex justify-between items-start gap-5 mb-5'>
+				<section className='flex justify-between items-start gap-5 mb-5'>
 					<BalanceCard
 						variant='transactions-total'
 						amount={totalTransactions}
 					/>
 					<BalanceCard variant='income-total' amount={totalIncome} />
 					<BalanceCard variant='expense-total' amount={totalExpense} />
-				</div>
+				</section>
 				<AllTransactionsSection transactions={transactions} />
 			</div>
 		</Container>

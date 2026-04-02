@@ -1,12 +1,13 @@
-import BalanceCard from '@/components/UI/BalanceCard'
+import BalanceCardsDashboardSection from '@/components/BalanceCardsDashboardSection'
+import ExpenseOverviewChart from '@/components/Charts/ExpenseOverviewChart'
+import FinancialDynamicsChart from '@/components/Charts/FinancialDynamicsChart'
 import Container from '@/components/UI/Container'
-import { getTotalByMonth } from '@/lib/balance-calculation'
+import {
+	getExpensePieData,
+	getFinancialDynamicsData,
+} from '@/lib/data-charts-calculations'
 import { getUserId } from '@/lib/getUserId'
 import prisma from '@/lib/prisma'
-import { TransactionTypeEnum } from '@prisma/client'
-
-const currentMonth = new Date().getMonth()
-const currentYear = new Date().getFullYear()
 
 export default async function Home() {
 	const userId = await getUserId()
@@ -18,37 +19,14 @@ export default async function Home() {
 		orderBy: { date: 'desc' },
 	})
 
-	console.log(transactions)
-
-	const totalBalance = transactions.reduce((acc, transaction) => {
-		if (transaction.type === 'EXPENSE') {
-			return acc - transaction.amount
-		} else {
-			return acc + transaction.amount
-		}
-	}, 0)
-
-	const monthlyIncome = getTotalByMonth(
-		transactions,
-		currentMonth,
-		currentYear,
-		TransactionTypeEnum.INCOME,
-	)
-
-	const monthlyExpense = getTotalByMonth(
-		transactions,
-		currentMonth,
-		currentYear,
-		TransactionTypeEnum.EXPENSE,
-	)
+	const expensesPieData = getExpensePieData(transactions)
+	const financialDynamicsChartData = getFinancialDynamicsData(transactions)
 
 	return (
 		<Container>
-			<section className='flex gap-6 pt-10 '>
-				<BalanceCard variant='total-balance' amount={totalBalance} />
-				<BalanceCard variant='income-month' amount={monthlyIncome} />
-				<BalanceCard variant='expense-month' amount={monthlyExpense} />
-			</section>
+			<BalanceCardsDashboardSection />
+			<ExpenseOverviewChart data={expensesPieData} />
+			<FinancialDynamicsChart data={financialDynamicsChartData} />
 		</Container>
 	)
 }

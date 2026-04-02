@@ -1,5 +1,5 @@
 import Container from '@/components/UI/Container'
-import TransactionChart from '@/components/UI/TransactionChart'
+import TransactionChart from '@/components/Charts/TransactionChart'
 import { getUserId } from '@/lib/getUserId'
 import prisma from '@/lib/prisma'
 import { TransactionTypeEnum } from '@prisma/client'

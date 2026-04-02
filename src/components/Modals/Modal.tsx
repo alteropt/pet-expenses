@@ -2,10 +2,27 @@
 
 import { useModal } from '@/store/modal.store'
 import { X } from 'lucide-react'
+import { useEffect } from 'react'
 
 const Modal = ({ children }: { children: React.ReactNode }) => {
 	const close = useModal(state => state.close)
 	const type = useModal(state => state.type)
+
+	useEffect(() => {
+		if (!type) return
+
+		const handleKeyDown = (e: KeyboardEvent) => {
+			if (e.key === 'Escape') {
+				close()
+			}
+		}
+		window.addEventListener('keydown', handleKeyDown)
+		document.querySelector('body')?.classList.add('overflow-hidden')
+		return () => {
+			window.removeEventListener('keydown', handleKeyDown)
+			document.querySelector('body')?.classList.remove('overflow-hidden')
+		}
+	}, [close, type])
 
 	if (!type) return null
 

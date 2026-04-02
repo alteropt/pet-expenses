@@ -5,7 +5,7 @@ export function getTotalByMonth(
 	transactions: TransactionType[],
 	month: number,
 	year: number,
-	type?: TransactionTypeEnum,
+	type: TransactionTypeEnum | 'total',
 ) {
 	return transactions.reduce((total, transaction) => {
 		const transactionDate = new Date(transaction.date)
@@ -13,10 +13,35 @@ export function getTotalByMonth(
 		const isSameMonth = transactionDate.getMonth() === month
 		const isSameYear = transactionDate.getFullYear() === year
 
-		if (!type && isSameMonth && isSameYear) return total + transaction.amount
-
 		if (isRightType && isSameMonth && isSameYear) {
 			return total + transaction.amount
+		}
+
+		if (type === 'total' && isSameMonth && isSameYear) {
+			if (transaction.type === TransactionTypeEnum.EXPENSE) {
+				return total - transaction.amount
+			} else {
+				return total + transaction.amount
+			}
+		}
+
+		return total
+	}, 0)
+}
+
+export function getTotal(
+	transactions: TransactionType[],
+	type: TransactionTypeEnum | 'total',
+) {
+	return transactions.reduce((total, transaction) => {
+		if (transaction.type === type) {
+			return total + transaction.amount
+		}
+
+		if (type === 'total') {
+			return transaction.type === TransactionTypeEnum.EXPENSE
+				? total - transaction.amount
+				: total + transaction.amount
 		}
 
 		return total

@@ -21,7 +21,7 @@ import InputField from '../../UI/InputField'
 import Select from '../../UI/Select'
 import TransactionTypeSelect from './TransactionTypeSelect'
 
-const ManageTransactionForm = ({ type }: { type: ModalType }) => {
+const ManageTransactionForm = ({ type }: { type: ModalType | null }) => {
 	const close = useModal(state => state.close)
 	const transactionData = useModal(state => state.data)
 
