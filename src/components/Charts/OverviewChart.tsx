@@ -11,17 +11,21 @@ import {
 
 const COLORS = ['#FF6B81', '#3A86FF', '#FFBE0B', '#38B000', '#9D4EDD']
 
-const ExpenseOverviewChart = ({
+const OverviewChart = ({
 	data,
+	title,
 }: {
 	data: {
 		name: string
 		value: number
 	}[]
+	title: string
 }) => {
 	return (
-		<div style={{ width: '100%', height: 300 }}>
-			<ResponsiveContainer>
+		<div className='w-full h-100 bg-white p-6 rounded-xl shadow-sm'>
+			<h3 className='text-lg font-semibold mb-6'>{title}</h3>
+
+			<ResponsiveContainer width='100%' height='90%'>
 				<PieChart>
 					<Pie
 						data={data}
@@ -32,7 +36,7 @@ const ExpenseOverviewChart = ({
 						paddingAngle={2}
 						dataKey='value'
 					>
-						{data.map((entry, index) => (
+						{data.map((_, index) => (
 							<Cell
 								key={`cell-${index}`}
 								fill={COLORS[index % COLORS.length]}
@@ -61,4 +65,4 @@ const ExpenseOverviewChart = ({
 	)
 }
 
-export default ExpenseOverviewChart
+export default OverviewChart

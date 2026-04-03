@@ -19,9 +19,7 @@ const FinancialDynamicsChart = ({
 }) => {
 	return (
 		<div className='w-full h-100 bg-white p-6 rounded-xl shadow-sm'>
-			<h3 className='text-lg font-semibold text-slate-800 mb-6'>
-				Spending Trend
-			</h3>
+			<h3 className='text-lg font-semibold mb-6'>Spending Trend</h3>
 			<ResponsiveContainer width='100%' height='90%'>
 				<LineChart data={data}>
 					<CartesianGrid

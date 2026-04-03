@@ -1,4 +1,5 @@
 import { getTotal, getTotalByMonth } from '@/lib/balance-calculation'
+import { cn } from '@/lib/cn'
 import { getUserId } from '@/lib/getUserId'
 import prisma from '@/lib/prisma'
 import { TransactionTypeEnum } from '@prisma/client'
@@ -7,7 +8,11 @@ import BalanceCard from './UI/BalanceCard'
 const currentMonth = new Date().getMonth()
 const currentYear = new Date().getFullYear()
 
-const BalanceCardsDashboardSection = async () => {
+const BalanceCardsDashboardSection = async ({
+	className,
+}: {
+	className?: string
+}) => {
 	const userId = await getUserId()
 
 	const transactions = await prisma.transaction.findMany({
@@ -34,7 +39,7 @@ const BalanceCardsDashboardSection = async () => {
 	)
 
 	return (
-		<section className='flex gap-6 pt-10 '>
+		<section className={cn('flex gap-6 pt-10', className)}>
 			<BalanceCard variant='total-balance' amount={totalBalance} />
 			<BalanceCard variant='income-month' amount={monthlyIncome} />
 			<BalanceCard variant='expense-month' amount={monthlyExpense} />
