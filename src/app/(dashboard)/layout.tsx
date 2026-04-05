@@ -1,8 +1,8 @@
-import '@/app/globals.css'
 import TransactionModal from '@/components/Modals/TransactionModal'
 import Header from '@/components/UI/Header'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import '@/app/globals.css'
 
 export const metadata: Metadata = {
 	title: 'Expenses Tracker',
