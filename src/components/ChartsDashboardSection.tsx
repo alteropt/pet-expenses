@@ -25,6 +25,8 @@ const ChartsDashboardSection = async ({
 	const expensesPieData = getExpensePieData(transactions)
 	const financialDynamicsChartData = getFinancialDynamicsData(transactions)
 
+	if (transactions.length === 0) return
+
 	return (
 		<div className={cn('flex gap-4', className)}>
 			<OverviewChart title='Expenses Overview' data={expensesPieData} />

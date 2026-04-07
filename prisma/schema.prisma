@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider  = "postgresql"
 }
 
 enum TransactionTypeEnum {
@@ -23,11 +23,11 @@ model User {
 
 // ===== EXPENSES MODELS =====
 model Transaction {
-  id          String          @id @default(uuid())
+  id          String              @id @default(uuid())
   description String
   amount      Float
   date        DateTime
-  createdAt   DateTime        @default(now())
+  createdAt   DateTime            @default(now())
   type        TransactionTypeEnum
 
   userId String

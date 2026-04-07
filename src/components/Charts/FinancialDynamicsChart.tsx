@@ -17,6 +17,7 @@ const FinancialDynamicsChart = ({
 }: {
 	data: MonthlyFinancialDynamicsData[]
 }) => {
+
 	return (
 		<div className='w-full h-100 bg-white p-6 rounded-xl shadow-sm'>
 			<h3 className='text-lg font-semibold mb-6'>Spending Trend</h3>
